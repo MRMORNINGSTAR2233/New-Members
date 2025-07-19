@@ -5,7 +5,7 @@ from fastapi import FastAPI, BackgroundTasks, Depends, Header, HTTPException, Re
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.api.routes import auth, calendar, email, jira, slack
+from app.api.routes import auth, calendar, email, jira, slack, chroma
 from app.core.config import settings
 from app.services.agents.gmail_agent import GmailAgent
 from app.services.agents.calendar_agent import CalendarAgent
@@ -36,6 +36,7 @@ app.include_router(email.router, prefix=f"{settings.API_V1_PREFIX}/email", tags=
 app.include_router(calendar.router, prefix=f"{settings.API_V1_PREFIX}/calendar", tags=["Calendar"])
 app.include_router(slack.router, prefix=f"{settings.API_V1_PREFIX}/slack", tags=["Slack"])
 app.include_router(jira.router, prefix=f"{settings.API_V1_PREFIX}/jira", tags=["Jira"])
+app.include_router(chroma.router, prefix=f"{settings.API_V1_PREFIX}/chroma", tags=["ChromaDB"])
 
 
 @app.on_event("startup")
