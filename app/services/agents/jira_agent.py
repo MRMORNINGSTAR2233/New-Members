@@ -174,7 +174,8 @@ class JiraAgent:
         ])
         
         # Get issue details from LLM
-        response = gemini_model.invoke(prompt)
+        messages = prompt.format_messages()
+        response = gemini_model.invoke(messages)
         
         try:
             # Parse the response into a dictionary
@@ -260,7 +261,8 @@ class JiraAgent:
         ])
         
         # Get issue details from LLM
-        response = gemini_model.invoke(prompt)
+        messages = prompt.format_messages()
+        response = gemini_model.invoke(messages)
         
         try:
             # Parse the response into a dictionary

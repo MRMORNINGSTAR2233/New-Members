@@ -11,7 +11,7 @@ from app.services.agents.gmail_agent import GmailAgent
 from app.services.agents.calendar_agent import CalendarAgent
 from app.services.agents.slack_agent import SlackAgent
 from app.services.agents.jira_agent import JiraAgent
-from app.services.vector.pinecone_service import pinecone_service
+from app.services.vector.chroma_service import chroma_service
 from app.utils.audit_logger import audit_logger
 
 
@@ -41,6 +41,9 @@ app.include_router(jira.router, prefix=f"{settings.API_V1_PREFIX}/jira", tags=["
 @app.on_event("startup")
 async def startup_event():
     """Initialize services on application startup"""
+    # Initialize ChromaDB service
+    await chroma_service.initialize()
+    
     audit_logger.log(
         action="application_startup",
         resource_type="application",

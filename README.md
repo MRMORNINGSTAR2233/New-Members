@@ -1,6 +1,6 @@
 # AI Backend Integration Platform
 
-A production-ready FastAPI backend that integrates with Gmail, Google Calendar, LangChain/LangGraph agents (powered by Gemini 1.5 Flash), Pinecone for vector storage, and Slack/Jira webhooks.
+A production-ready FastAPI backend that integrates with Gmail, Google Calendar, LangChain/LangGraph agents (powered by Gemini 1.5 Flash), ChromaDB for vector storage, and Slack/Jira webhooks.
 
 ## Project Structure
 
@@ -33,7 +33,7 @@ app/
   │   ├── llm/               # LLM integrations
   │   │   └── gemini_provider.py # Gemini API integration
   │   └── vector/            # Vector storage services
-  │       └── pinecone_service.py # Pinecone integration
+  │       └── chroma_service.py   # ChromaDB integration
   └── utils/                 # Utility functions
       └── audit_logger.py    # Audit logging functionality
 ```
