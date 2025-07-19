@@ -1,0 +1,26 @@
+# FastAPI and Server
+fastapi
+uvicorn
+pydantic
+python-dotenv
+
+# Google API Clients
+google-auth
+google-auth-oauthlib
+google-api-python-client
+
+# AI/ML Components
+langchain
+langchain_core
+langgraph
+google-generativeai
+
+# Vector Storage
+pinecone-client
+
+# Integration Clients
+slack-sdk
+jira
+
+# Logging
+loguru
