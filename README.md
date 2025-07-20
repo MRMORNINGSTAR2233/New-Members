@@ -1,138 +1,247 @@
-# AI Backend Integration Platform
+# ZenBox AI
 
-A production-ready FastAPI backend that integrates with Gmail, Google Calendar, LangChain/LangGraph agents (powered by Gemini 1.5 Flash), ChromaDB for vector storage, and Slack/Jira webhooks.
+Your AI-powered productivity companion that unifies search, automation, and intelligence across all your favorite tools and platforms.
+
+## Features
+
+- 🔍 **Intelligent Search Interface** - Natural language search with AI-powered actions
+- 📧 **Gmail Integration** - Send emails, search messages, and manage your inbox
+- 📅 **Google Calendar** - Schedule meetings, manage events, and view your calendar
+- 🎥 **Google Meet** - Create instant meetings and manage video calls
+- 🤖 **AI Assistant** - Process natural language commands and automate workflows
+- 🎨 **Modern UI** - Beautiful, responsive interface with dark/light mode
+- 🔔 **Real-time Notifications** - Stay updated with action results and status changes
+- 📊 **Analytics Dashboard** - Monitor usage and performance metrics
+
+## Quick Start
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd zenbox-ai
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Set up Google API credentials** (see [Google API Setup Guide](./GOOGLE_API_SETUP.md))
+   ```bash
+   cp .env.example .env
+   # Edit .env with your Google API credentials
+   ```
+
+4. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+5. **Open your browser** and navigate to `http://localhost:5173`
+
+## 🤖 OpenAI Integration
+
+ZenBox AI uses OpenAI's GPT models to analyze your search queries and provide intelligent suggestions.
+
+### Setup:
+1. Get your API key from [OpenAI Platform](https://platform.openai.com/api-keys)
+2. Add to your `.env` file: `VITE_OPENAI_API_KEY=your-api-key-here`
+3. Restart the development server
+
+### Features:
+- **Smart Query Analysis**: Automatically detects if your input is valid or gibberish
+- **Task Classification**: Categorizes queries (email, calendar, search, meeting, etc.)
+- **AI Suggestions**: Provides actionable steps and execution options
+- **Confidence Scoring**: Shows how confident the AI is about understanding your request
+
+### Example Queries:
+- *"Send an email to john@example.com about the project update"*
+- *"Schedule a team meeting for tomorrow at 2 PM"*
+- *"Create a Google Meet for the quarterly review"*
+- *"Find my calendar events for this week"*
+
+## Google API Setup
+
+For detailed instructions on setting up Google API integration, see the [Google API Setup Guide](./GOOGLE_API_SETUP.md).
+
+### Quick Setup Summary:
+
+1. Create a Google Cloud Project
+2. Enable Gmail, Calendar, and Drive APIs
+3. Configure OAuth consent screen
+4. Create OAuth 2.0 credentials
+5. Add credentials to your `.env` file
+
+## Usage Examples
+
+### Natural Language Commands
+
+The AI assistant can understand and execute various commands:
+
+**Email Actions:**
+- "Send an email to john@example.com with subject 'Meeting Tomorrow'"
+- "Search for emails from my manager"
+- "Reply to the latest email from the team"
+
+**Calendar Actions:**
+- "Schedule a meeting tomorrow at 2 PM"
+- "Create a team standup for next Monday"
+- "Show my meetings for today"
+
+**Google Meet Actions:**
+- "Create an instant meeting"
+- "Schedule a Google Meet for the presentation"
+- "Create a video call with the team"
+
+**Search Actions:**
+- "Find all emails about the project"
+- "Search my calendar for meetings with John"
+- "Show me everything related to the quarterly review"
+
+## Architecture
+
+### Frontend
+- **React 18** with TypeScript
+- **Tailwind CSS** for styling
+- **shadcn/ui** for UI components
+- **React Router** for navigation
+- **React Query** for data fetching
+
+### Google Integration
+- **Google APIs Client Library** for authentication
+- **Gmail API** for email management
+- **Google Calendar API** for calendar operations
+- **Google Meet** integration via Calendar API
+
+### State Management
+- **React Context** for global state
+- **Custom hooks** for Google services
+- **Notification system** for real-time updates
 
 ## Project Structure
 
 ```
-app/
-  ├── main.py                # FastAPI application entry point
-  ├── api/                   # API routes
-  │   └── routes/            # Endpoint implementations
-  │       ├── auth.py        # Authentication routes
-  │       ├── calendar.py    # Calendar API routes
-  │       ├── email.py       # Email API routes
-  │       ├── jira.py        # Jira API routes
-  │       └── slack.py       # Slack API routes
-  ├── core/                  # Core application components
-  │   └── config.py          # Configuration management
-  ├── models/                # Pydantic data models
-  │   ├── calendar.py        # Calendar data models
-  │   ├── email.py           # Email data models
-  │   ├── jira.py            # Jira data models
-  │   └── slack.py           # Slack data models
-  ├── services/              # Service integrations
-  │   ├── agents/            # LangChain/LangGraph agents
-  │   │   ├── calendar_agent.py  # Calendar integration
-  │   │   ├── gmail_agent.py     # Gmail integration
-  │   │   ├── jira_agent.py      # Jira integration
-  │   │   ├── llm_agents.py      # LLM sub-agents
-  │   │   └── slack_agent.py     # Slack integration
-  │   ├── auth/              # Authentication services
-  │   │   └── google_auth.py     # Google OAuth2 integration
-  │   ├── llm/               # LLM integrations
-  │   │   └── gemini_provider.py # Gemini API integration
-  │   └── vector/            # Vector storage services
-  │       └── chroma_service.py   # ChromaDB integration
-  └── utils/                 # Utility functions
-      └── audit_logger.py    # Audit logging functionality
+src/
+├── components/           # Reusable UI components
+│   ├── ui/              # shadcn/ui components
+│   ├── SearchInterface.tsx
+│   ├── IntegrationDashboard.tsx
+│   └── NotificationCenter.tsx
+├── contexts/            # React contexts
+│   ├── GoogleIntegrationContext.tsx
+│   ├── NotificationContext.tsx
+│   └── ThemeContext.tsx
+├── services/            # API services
+│   └── google/          # Google API integrations
+│       ├── auth.ts
+│       ├── gmail.ts
+│       ├── calendar.ts
+│       ├── meet.ts
+│       └── index.ts
+├── pages/               # Page components
+├── hooks/               # Custom hooks
+└── lib/                 # Utilities
 ```
 
-## Setup Instructions
+## Environment Variables
 
-1. **Clone the repository**
+Create a `.env` file with the following variables:
 
-   ```bash
-   git clone <repository-url>
-   cd <repository-folder>
-   ```
+```env
+# Google API Configuration
+VITE_GOOGLE_CLIENT_ID=your_google_client_id
+VITE_GOOGLE_CLIENT_SECRET=your_google_client_secret
+VITE_GOOGLE_REDIRECT_URI=http://localhost:5173/auth/google/callback
+VITE_GOOGLE_PROJECT_ID=your_google_project_id
+```
 
-2. **Create and activate a virtual environment**
+## Development
 
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\\Scripts\\activate
-   ```
+### Available Scripts
 
-3. **Install dependencies**
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
+- `npm run type-check` - Run TypeScript checks
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+### Adding New Integrations
 
-4. **Set up environment variables**
+1. Create a new service in `src/services/`
+2. Add authentication logic
+3. Create API methods
+4. Update the integration context
+5. Add UI components
+6. Update the dashboard
 
-   Copy the example.env file to .env and fill in your credentials:
+## Deployment
 
-   ```bash
-   cp example.env .env
-   # Edit .env with your preferred editor
-   ```
+### Production Build
 
-5. **Run the application**
+```bash
+npm run build
+```
 
-   ```bash
-   python run.py
-   ```
+### Environment Setup
 
-   This will start the server at http://localhost:8000 with auto-reload enabled.
+1. Update environment variables for production
+2. Configure OAuth redirect URIs for your domain
+3. Submit app for Google verification (if needed)
+4. Deploy to your hosting platform
 
-## API Documentation
+### Hosting Platforms
 
-Once the server is running, you can access the automatic API documentation:
+This app can be deployed to:
+- **Vercel** (recommended)
+- **Netlify**
+- **AWS Amplify**
+- **Google Cloud Platform**
 
-- Swagger UI: http://localhost:8000/docs
-- ReDoc: http://localhost:8000/redoc
+## Security
 
-## Security & Privacy Notes
+- OAuth 2.0 for secure authentication
+- Environment variables for sensitive data
+- HTTPS required in production
+- Token refresh handling
+- Scope-based permissions
 
-### Security Best Practices
+## Troubleshooting
 
-1. **HTTPS Enforcement**
-   - Always use HTTPS in production to encrypt data in transit.
-   - Configure your web server or reverse proxy (like Nginx) to handle TLS termination.
-   - Redirect all HTTP traffic to HTTPS.
+### Common Issues
 
-2. **OAuth2 Security**
-   - Restrict Google OAuth redirect URIs to specific, controlled domains.
-   - Store client secrets securely, never commit them to version control.
-   - Implement PKCE (Proof Key for Code Exchange) for added security.
+**"This app isn't verified" warning**
+- Normal during development
+- Click "Advanced" → "Go to [App Name] (unsafe)"
+- Submit for verification in production
 
-3. **API Authentication**
-   - All endpoints should require proper authentication in production.
-   - Implement JWT or session-based authentication for API users.
-   - Use rate limiting to prevent abuse.
+**Authentication errors**
+- Check client ID and secret
+- Verify redirect URI matches exactly
+- Ensure APIs are enabled
 
-4. **Webhook Security**
-   - Always verify Slack signature for all incoming webhooks.
-   - Use secret tokens for Jira webhooks and validate them.
-   - Implement IP allowlisting if possible.
+**API quota exceeded**
+- Monitor usage in Google Cloud Console
+- Implement rate limiting
+- Consider upgrading quotas
 
-### Privacy Considerations
+**Token expiration**
+- Tokens are automatically refreshed
+- Re-authenticate if refresh fails
+- Check token storage
 
-1. **Data Storage**
-   - Audit logs should be stored securely with access controls.
-   - Consider encryption at rest for sensitive data.
-   - Implement proper data retention and deletion policies.
+## Technologies Used
 
-2. **User Consent**
-   - Ensure users understand what data is being accessed through OAuth.
-   - Implement clear consent flows for email and calendar access.
-   - Only request the minimum scopes needed for functionality.
+This project is built with:
 
-3. **Data Handling**
-   - Minimize storage of email content or calendar details.
-   - Implement proper data minimization practices.
-   - Consider anonymizing data when possible.
+- **Vite** - Fast build tool and dev server
+- **TypeScript** - Type-safe JavaScript
+- **React 18** - Modern React with hooks
+- **shadcn/ui** - Beautiful UI components
+- **Tailwind CSS** - Utility-first CSS framework
+- **Google APIs** - Gmail, Calendar, Meet integration
+- **React Query** - Data fetching and caching
+- **React Router** - Client-side routing
 
-4. **LLM Security**
-   - Be aware of prompt injection risks with LLMs.
-   - Implement input validation and sanitization.
-   - Monitor for sensitive data leakage in LLM inputs and outputs.
-   - Use content filtering and safety settings in the Gemini API.
+---
 
-### Compliance
-
-- Ensure compliance with relevant regulations like GDPR, CCPA, etc.
-- Implement proper data subject access and deletion capabilities.
-- Consider data sovereignty requirements for international deployments.
+Built with ❤️ using React, TypeScript, and Google APIs
