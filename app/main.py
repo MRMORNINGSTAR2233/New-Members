@@ -5,7 +5,7 @@ from fastapi import FastAPI, BackgroundTasks, Depends, Header, HTTPException, Re
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.api.routes import auth, calendar, email, jira, slack, chroma
+from app.api.routes import auth, calendar, email, jira, slack, chroma, status
 from app.core.config import settings
 from app.services.agents.gmail_agent import GmailAgent
 from app.services.agents.calendar_agent import CalendarAgent
@@ -24,10 +24,10 @@ app = FastAPI(
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, replace with specific origins
+    allow_origins=["http://localhost:8080", "http://127.0.0.1:8080"],  # Frontend URLs
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allow_headers=["Content-Type", "Authorization", "Accept", "X-Requested-With"],
 )
 
 # Include API routes
@@ -37,6 +37,10 @@ app.include_router(calendar.router, prefix=f"{settings.API_V1_PREFIX}/calendar",
 app.include_router(slack.router, prefix=f"{settings.API_V1_PREFIX}/slack", tags=["Slack"])
 app.include_router(jira.router, prefix=f"{settings.API_V1_PREFIX}/jira", tags=["Jira"])
 app.include_router(chroma.router, prefix=f"{settings.API_V1_PREFIX}/chroma", tags=["ChromaDB"])
+app.include_router(status.router, prefix=f"{settings.API_V1_PREFIX}/status", tags=["Status"])
+
+# Add the direct API endpoints for compatibility with frontend
+app.include_router(status.router, prefix="/api", tags=["API-Status"])
 
 
 @app.on_event("startup")
